@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button } from '../../components/ui/Button';
+import { Button } from '../../components/ui/button';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Star, CheckCircle, Video, MessageCircle, Calendar } from 'lucide-react';
