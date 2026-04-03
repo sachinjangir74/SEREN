@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useAppStore } from '../store/useAppStore';
 import { Sparkles, UserCheck, Send, Loader2, Bot, User as UserIcon, MessageSquare, Menu, X, FileText, CheckCircle2, MoreVertical, Search, Paperclip, Smile, Mic } from 'lucide-react';
 import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
+import { Input } from '../components/ui/Input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '../components/ui/dialog';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmojiPicker from 'emoji-picker-react';
