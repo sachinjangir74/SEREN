@@ -21,7 +21,14 @@ const app = express();
 const server = http.createServer(app);
 
 // Strict CORS config for Production
-const allowedOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : ['http://localhost:5225', 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://127.0.0.1:5225'];
+const allowedOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : [
+  'http://localhost:5225', 
+  'http://localhost:5173', 
+  'http://127.0.0.1:5173', 
+  'http://127.0.0.1:5225',
+  'https://seren-lovat.vercel.app',
+  'https://seren-2361mvewy-sachinjangir7427-gmailcoms-projects.vercel.app'
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
