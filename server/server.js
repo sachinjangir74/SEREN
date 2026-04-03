@@ -21,7 +21,9 @@ const app = express();
 const server = http.createServer(app);
 
 // Strict CORS config for Production
-const allowedOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : [
+// Define all allowed origins (merge Environment variable with defaults)
+const envOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',').map(o => o.trim()) : [];
+const defaultOrigins = [
   'http://localhost:5225', 
   'http://localhost:5173', 
   'http://127.0.0.1:5173', 
@@ -29,19 +31,33 @@ const allowedOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(','
   'https://seren-lovat.vercel.app',
   'https://seren-2361mvewy-sachinjangir7427-gmailcoms-projects.vercel.app'
 ];
+const allowedOrigins = [...new Set([...envOrigins, ...defaultOrigins])];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
       callback(null, true);
     } else {
-
+      console.warn("CORS Request Blocked for origin:", origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   credentials: true,
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 };
+
+// Apply CORS middleware first
+app.use(cors(corsOptions));
+// Explicitly handle OPTIONS preflight for all routes
+app.options('*', cors(corsOptions));
+
+// Standard middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // CORS for the frontend via Socket.io
 const io = new Server(server, {
