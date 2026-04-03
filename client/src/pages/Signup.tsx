@@ -65,9 +65,10 @@ const Signup = () => {
         toast.error(errorMsg, { id: loadingToast });
       }
     } catch (err: any) {
-      const errorMessage = typeof err === 'string' ? err : (err.message || 'Failed to create account');
+      console.error("Signup Submission Error:", err);
+      const errorMessage = typeof err === 'string' ? err : (err.response?.data?.message || err.message || 'Failed to create account');
       setError(errorMessage);
-      toast.error(errorMessage, { id: loadingToast });
+      toast.error(errorMessage, { id: loadingToast, duration: 6000 });
     } finally {
       setLoading(false);
     }

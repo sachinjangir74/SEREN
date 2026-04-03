@@ -211,8 +211,9 @@ cron.schedule('0 0 * * 0', async () => {
 
 // Centralized Error Handling Middleware
 app.use((err, req, res, next) => {
-  // Only log stack trace in development
-  if (process.env.NODE_ENV !== 'production') {
+  // Always log error details in the server console for diagnostics
+  console.error(`ERROR [${req.method} ${req.url}]: ${err.message}`);
+  if (process.env.NODE_ENV !== 'production' || statusCode === 500) {
     console.error(err.stack);
   }
 

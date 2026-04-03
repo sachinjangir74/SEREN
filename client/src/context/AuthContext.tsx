@@ -73,7 +73,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       return false;
     } catch (e: any) {
-      throw e.response?.data?.message || "Registration failed";
+      console.error("Registration Error Context:", e);
+      // Better error extraction for structured responses
+      const response = e.response?.data;
+      if (response?.errors && Array.isArray(response.errors)) {
+        throw response.errors.map((err: any) => err.message).join(", ");
+      }
+      throw response?.message || e.message || "Registration failed";
     }
   };
 

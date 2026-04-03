@@ -13,20 +13,25 @@ const generateToken = (id) => {
 // @access  Public
 exports.registerUser = async (req, res) => {
   try {
+    console.log("--- Signup Request Start ---");
+    console.log("Body:", JSON.stringify(req.body, null, 2));
+
     const { name, email, password, username, age, gender, role } = req.body;
-    const userEmail = email || username; // fallback for backwards compatibility
+    const userEmail = email || username; 
 
     if (!userEmail || !password || !name) {
+      console.warn("Signup missing fields:", { name, userEmail, hasPassword: !!password });
       return res.status(400).json({ success: false, message: 'Please provide all required fields (name, email, password)' });
     }
 
     const userExists = await User.findOne({ email: userEmail });
 
     if (userExists) {
+      console.warn("Signup email already exists:", userEmail);
       return res.status(400).json({ success: false, message: 'Email is already registered' });
     }
 
-    // Prevent Role Escalation during registration
+    // Role Escalation Prevention
     const userRole = (role === 'admin' || role === 'therapist') ? 'user' : (role || 'user');
 
     const user = await User.create({
@@ -39,7 +44,8 @@ exports.registerUser = async (req, res) => {
     });
 
     if (user) {
-      user.password = undefined; // Don't send password back
+      console.log("Signup Success:", userEmail);
+      user.password = undefined; 
       res.status(201).json({
         success: true,
         data: {
@@ -55,11 +61,14 @@ exports.registerUser = async (req, res) => {
         }
       });
     } else {
+      console.error("Signup failed to create user object");
       res.status(400).json({ success: false, message: 'Invalid user data' });
     }
   } catch (error) {
+    console.error("--- Signup Internal Error ---");
+    console.error(error);
     if (error.code === 11000) {
-      return res.status(400).json({ success: false, message: 'Email is already registered' });
+      return res.status(400).json({ success: false, message: 'Email already registered (Caught by DB)' });
     }
     res.status(500).json({ success: false, message: error.message });
   }
