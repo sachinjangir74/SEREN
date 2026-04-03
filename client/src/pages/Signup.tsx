@@ -4,6 +4,7 @@ import AuthContext from '../context/AuthContext';
 import { User, Mail, Lock, ArrowRight, Calendar, Users, Info, Eye, EyeOff } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Image } from '../components/ui/Image';
+import { toast } from 'react-hot-toast';
 
 const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '', age: '', gender: 'prefer_not_to_say', role: 'user' });
@@ -20,11 +21,25 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     if (formData.password !== formData.confirmPassword) {
-      return setError('Passwords do not match');
+      const msg = 'Passwords do not match';
+      setError(msg);
+      toast.error(msg);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      const msg = 'Password must be at least 6 characters';
+      setError(msg);
+      toast.error(msg);
+      return;
     }
 
     setLoading(true);
+    const loadingToast = toast.loading('Creating your account...');
+
     try {
       const newUser = await register({ 
         name: formData.name, 
@@ -34,7 +49,9 @@ const Signup = () => {
         gender: formData.gender,
         role: formData.role
       });
+
       if (newUser) {
+        toast.success('Welcome to Seren!', { id: loadingToast });
         if (newUser.role === 'admin') {
           navigate('/admin');
         } else if (newUser.role === 'therapist') {
@@ -43,10 +60,14 @@ const Signup = () => {
           navigate('/profile');
         }
       } else {
-        setError('Registration failed. Please try again.');
+        const errorMsg = 'Registration failed. Please try again.';
+        setError(errorMsg);
+        toast.error(errorMsg, { id: loadingToast });
       }
-    } catch (err) {
-      setError(err || 'Failed to create account');
+    } catch (err: any) {
+      const errorMessage = typeof err === 'string' ? err : (err.message || 'Failed to create account');
+      setError(errorMessage);
+      toast.error(errorMessage, { id: loadingToast });
     } finally {
       setLoading(false);
     }

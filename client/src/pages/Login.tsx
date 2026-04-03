@@ -4,6 +4,7 @@ import AuthContext from '../context/AuthContext';
 import { Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Image } from '../components/ui/Image';
+import { toast } from 'react-hot-toast';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -19,10 +20,14 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
+    const loadingToast = toast.loading('Signing in...');
+
     try {
       const loggedInUser = await login({ email: formData.email, password: formData.password });
       if (loggedInUser) {
+        toast.success('Signed in successfully!', { id: loadingToast });
         if (loggedInUser.role === 'admin') {
           navigate('/admin');
         } else if (loggedInUser.role === 'therapist') {
@@ -31,10 +36,14 @@ const Login = () => {
           navigate('/profile');
         }
       } else {
-        setError('Invalid credentials');
+        const errorMsg = 'Invalid credentials';
+        setError(errorMsg);
+        toast.error(errorMsg, { id: loadingToast });
       }
-    } catch (err) {
-      setError(err || 'Login failed');
+    } catch (err: any) {
+      const errorMessage = typeof err === 'string' ? err : (err.message || 'Login failed');
+      setError(errorMessage);
+      toast.error(errorMessage, { id: loadingToast });
     } finally {
       setLoading(false);
     }
