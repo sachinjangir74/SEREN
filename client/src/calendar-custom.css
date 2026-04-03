@@ -1,0 +1,5 @@
+/* Custom calendar day coloring for react-day-picker */
+.rdp-day.pastWeekend { color: #fca5a5 !important; }
+.rdp-day.pastWeekday { color: #9ca3af !important; }
+.rdp-day.futureWeekend { color: #dc2626 !important; font-weight: bold !important; }
+.rdp-day.futureWeekday { color: #111827 !important; font-weight: 600 !important; }
