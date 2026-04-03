@@ -20,8 +20,8 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
-// Strict CORS config for Production
-// Define all allowed origins (merge Environment variable with defaults)
+// --- SECURITY & CORS MIDDLEWARE (MUST BE FIRST) ---
+// Define allowed origins
 const envOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',').map(o => o.trim()) : [];
 const defaultOrigins = [
   'http://localhost:5225', 
@@ -34,44 +34,33 @@ const defaultOrigins = [
 const allowedOrigins = [...new Set([...envOrigins, ...defaultOrigins])];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
-      callback(null, true);
-    } else {
-      console.warn("CORS Request Blocked for origin:", origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 };
 
-// Apply CORS middleware first
+// Apply CORS and OPTIONS Preflight first
 app.use(cors(corsOptions));
-// Explicitly handle OPTIONS preflight for all routes
 app.options('*', cors(corsOptions));
 
-// Standard middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Set security headers with Helmet configured for CORS
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginOpenerPolicy: { policy: "unsafe-none" }
+}));
 
-// CORS for the frontend via Socket.io
-const io = new Server(server, {
-  cors: {
-    origin: allowedOrigins,
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
+// Body Parsers & Sanitization
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(mongoSanitize());
+
+// --- LOGGING & OTHER MIDDLEWARE ---
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
 });
-
-// Middleware
-app.use(helmet());
-app.use(cors(corsOptions));
-app.use(express.json({ limit: '10kb' })); // Body parser limiting payload size
 
 // Sanitize data -> Protect against NoSQL Injection
 // Write safe proxy for Express 5 compatibility
