@@ -468,17 +468,17 @@ const Profile = () => {
         {/* Welcome Banner */}
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="relative rounded-3xl overflow-hidden mb-8 shadow-sm border border-slate-100 dark:border-slate-800">
            <div className="absolute inset-0 z-0">
-             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-teal-900/50 mix-blend-multiply" />
-             <Image src="https://images.unsplash.com/photo-1518133835878-5a93ac30fabc?auto=format&fit=crop&q=80&w=2000" alt="Dashboard Nature Banner" className="w-full h-full object-cover" />
+             <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/60 to-transparent z-10" />
+             <Image src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&q=80&w=2000" alt="Dashboard Nature Banner" className="w-full h-full object-cover" />
            </div>
            
-           <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div>
-                <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-teal-100 uppercase bg-teal-900/50 rounded-full backdrop-blur-md border border-teal-500/30">Your Space</span>
-                <h1 className="text-3xl md:text-5xl tracking-tight font-extrabold text-white mb-2">
-                  Welcome back, <span className="text-teal-300">{user?.name?.split(" ")[0] || "User"}</span>
+           <div className="relative z-20 p-8 md:p-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="backdrop-blur-[2px] p-2 rounded-2xl bg-black/5 inline-block">
+                <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-teal-100 uppercase bg-teal-900/40 rounded-full backdrop-blur-md border border-teal-500/20">Your Space</span>
+                <h1 className="text-3xl md:text-5xl tracking-tight font-extrabold text-white mb-2 drop-shadow-sm">
+                  Welcome back, <span className="text-teal-400 drop-shadow-md">{user?.name?.split(" ")[0] || "User"}</span>
                 </h1>
-                <p className="text-slate-200 text-lg max-w-xl">We're glad you're here. Take a breath, and let's pick up where you left off.</p>
+                <p className="text-slate-200 text-lg max-w-xl font-medium">We're glad you're here. Let's take a deep breath and pick up where you left off.</p>
               </div>
               <div className="flex items-center gap-3">
                 <Button className="bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-md hidden sm:flex" onClick={() => setShowMoodModal(true)}>
