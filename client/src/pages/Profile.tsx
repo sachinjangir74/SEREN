@@ -692,20 +692,27 @@ const Profile = () => {
           </motion.div>
 
           {/* Quick Actions / Insights Bento */}
-          <motion.div variants={itemVariants} className="col-span-1">
-            <Card className="h-full">
-               <CardHeader>
-               <CardTitle>Daily Affirmation</CardTitle>
-             </CardHeader>
-             <CardContent>
-                <div className="p-6 rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/10 border border-primary-100 dark:border-primary-900/30 relative overflow-hidden">
-                  <SparklesIcon className="absolute top-2 right-2 text-primary-200 dark:text-primary-800/50 w-24 h-24 -mr-6 -mt-6" />
-                  <p className="text-primary-900 dark:text-primary-100 font-medium text-lg leading-snug relative z-10">
-                    "I give myself permission to pause, breathe, and reset. My peace is my priority."
-                  </p>
+          <motion.div variants={itemVariants} className="col-span-1 md:col-span-3">
+            <Card className="border-0 shadow-none bg-transparent">
+              <CardContent className="p-0">
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900/20 dark:to-teal-800/10 border border-teal-100 dark:border-teal-900/30 relative overflow-hidden group">
+                  <Sparkles className="absolute -right-4 -bottom-4 w-32 h-32 text-teal-500/10 dark:text-teal-400/5 group-hover:scale-110 transition-transform duration-700" />
+                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="space-y-2 text-center md:text-left">
+                       <span className="inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-100 dark:bg-teal-950/50 rounded-full">Daily Affirmation</span>
+                       <p className="text-teal-900 dark:text-teal-50 font-semibold text-xl md:text-2xl leading-relaxed max-w-2xl">
+                        "I give myself permission to pause, breathe, and reset. My peace is my priority."
+                       </p>
+                    </div>
+                    <div className="shrink-0 flex items-center gap-2 text-teal-600 dark:text-teal-400 font-medium text-sm">
+                      <Sparkles className="w-5 h-5 animate-pulse" />
+                      Keep your focus
+                    </div>
+                  </div>
                 </div>
-             </CardContent>
-          </Card>          </motion.div>
+              </CardContent>
+            </Card>
+          </motion.div>
 
           {/* Program Progress */}
           <motion.div variants={itemVariants} className="col-span-1 md:col-span-3">
