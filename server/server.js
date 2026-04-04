@@ -41,9 +41,8 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 };
 
-// Apply CORS and OPTIONS Preflight first
+// Apply CORS first
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 
 // Set security headers with Helmet configured for CORS
 app.use(helmet({
