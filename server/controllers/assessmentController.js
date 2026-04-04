@@ -11,20 +11,10 @@ exports.getAssessmentBySlug = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Assessment not found.' });
     }
 
-    
-    // Check if user is logged in
-    if (req.user) {
-      req.user.assessmentResults.push({
-        assessmentSlug: slug,
-        score: totalScore,
-        severity: result ? result.severity : 'Unknown',
-        date: new Date()
-      });
-      await req.user.save();
-    }
-
     res.status(200).json({
- success: true, data: assessment });
+      success: true,
+      data: assessment
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server Error', error: error.message });
   }
