@@ -12,7 +12,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const mongoSanitize = require('express-mongo-sanitize');
 
-const connectDB = require('./config/db');
+const { connectDB, lastError } = require('./config/db');
 
 // Connect to database
 connectDB();
@@ -193,6 +193,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
     database: mongoose.connection.readyState === 1 ? 'CONNECTED' : 'DISCONNECTED',
+    dbError: lastError(),
     env: {
       NODE_ENV: process.env.NODE_ENV || 'development',
       JWT_SECRET: process.env.JWT_SECRET ? 'PRESENT' : 'MISSING',
