@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -240,14 +241,14 @@ cron.schedule('0 0 * * 0', async () => {
 
 // Centralized Error Handling Middleware
 app.use((err, req, res, next) => {
+  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  let message = err.message || 'Internal Server Error';
+
   // Always log error details in the server console for diagnostics
-  console.error(`ERROR [${req.method} ${req.url}]: ${err.message}`);
+  console.error(`ERROR [${req.method} ${req.url}]: ${message}`);
   if (process.env.NODE_ENV !== 'production' || statusCode === 500) {
     console.error(err.stack);
   }
-
-  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  let message = err.message || 'Internal Server Error';
 
   // Handle Mongoose Bad ObjectId
   if (err.name === 'CastError' && err.kind === 'ObjectId') {
