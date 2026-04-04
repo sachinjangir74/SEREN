@@ -50,10 +50,9 @@ app.use(helmet({
   crossOriginOpenerPolicy: { policy: "unsafe-none" }
 }));
 
-// Body Parsers & Sanitization
+// Body Parsers
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-app.use(mongoSanitize());
 
 // --- LOGGING & OTHER MIDDLEWARE ---
 app.use((req, res, next) => {
