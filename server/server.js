@@ -192,9 +192,18 @@ io.on('connection', (socket) => {
   });
 });
 
-// Basic Route
-app.get('/', (req, res) => {
-  res.send('API is running...');
+// Health & Diagnostic Route
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'online',
+    database: mongoose.connection.readyState === 1 ? 'CONNECTED' : 'DISCONNECTED',
+    env: {
+      NODE_ENV: process.env.NODE_ENV || 'development',
+      JWT_SECRET: process.env.JWT_SECRET ? 'PRESENT' : 'MISSING',
+      MONGODB_URI: process.env.MONGODB_URI ? 'PRESENT' : 'MISSING',
+      PORT: process.env.PORT || 5000,
+    }
+  });
 });
 
 // Routes placeholders
