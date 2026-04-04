@@ -62,6 +62,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// CORS for the frontend via Socket.io
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
+
 // Sanitize data -> Protect against NoSQL Injection
 // Write safe proxy for Express 5 compatibility
 app.use((req, res, next) => {
