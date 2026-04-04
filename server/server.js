@@ -203,6 +203,46 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Deployment-only utility to seed assessments.
+// This is to fix the "Assessment Not Found" error in remote production.
+app.get('/api/seed-db', async (req, res) => {
+  const Assessment = require('./models/Assessment');
+  const assessments = [
+    {
+      title: "Anxiety Assessment (GAD-7)",
+      slug: "anxiety-assessment",
+      description: "Generalized Anxiety Disorder assessment to understand your recent feelings of nervousness and worry.",
+      questions: [
+        { text: "Feeling nervous, anxious, or on edge?", options: [{ label: "Not at all", score: 0 }, { label: "Several days", score: 1 }, { label: "More than half the days", score: 2 }, { label: "Nearly every day", score: 3 }] },
+        { text: "Not being able to stop or control worrying?", options: [{ label: "Not at all", score: 0 }, { label: "Several days", score: 1 }, { label: "More than half the days", score: 2 }, { label: "Nearly every day", score: 3 }] }
+      ],
+      scoreThresholds: [
+        { minScore: 0, maxScore: 2, severity: "Minimal Anxiety", recommendation: "Your anxiety levels are minimal. Continue practicing mindfulness.", suggestedProgramSlug: "mindful-breathing" },
+        { minScore: 3, maxScore: 6, severity: "Moderate Anxiety", recommendation: "You have moderate anxiety. We recommend a consultation.", suggestedProgramSlug: "one-to-one-therapy" }
+      ]
+    },
+    {
+      title: "Depression Assessment (PHQ-9)",
+      slug: "depression-assessment",
+      description: "Patient Health Questionnaire to monitor the severity of depression.",
+      questions: [
+        { text: "Little interest or pleasure in doing things?", options: [{ label: "Not at all", score: 0 }, { label: "Several days", score: 1 }, { label: "More than half the days", score: 2 }, { label: "Nearly every day", score: 3 }] }
+      ],
+      scoreThresholds: [
+        { minScore: 0, maxScore: 3, severity: "Normal", recommendation: "Maintain a healthy routine.", suggestedProgramSlug: "happiness-program" }
+      ]
+    }
+  ];
+
+  try {
+    await Assessment.deleteMany({});
+    await Assessment.insertMany(assessments);
+    res.json({ success: true, message: "Production database assessments seeded!" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Seed failed", error: err.message });
+  }
+});
+
 // Routes placeholders
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/appointments', require('./routes/appointmentRoutes'));
