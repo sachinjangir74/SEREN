@@ -7,13 +7,16 @@ const { z } = require('zod');
 const validate = (schema) => async (req, res, next) => {
   try {
     if (schema.params) {
-      req.params = await schema.params.parseAsync(req.params);
+      await schema.params.parseAsync(req.params);
     }
     if (schema.query) {
-      req.query = await schema.query.parseAsync(req.query);
+      await schema.query.parseAsync(req.query);
     }
     if (schema.body) {
-      req.body = await schema.body.parseAsync(req.body);
+      const validatedBody = await schema.body.parseAsync(req.body);
+      // Express 5 allows mutating req.body but often blocks re-assignment of req.query/params
+      // Here we only update body's fields to preserve defaults/transforms
+      Object.assign(req.body, validatedBody);
     }
     return next();
   } catch (error) {
