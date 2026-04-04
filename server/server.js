@@ -11,7 +11,6 @@ const hpp = require('hpp');
 const http = require('http');
 const { Server } = require('socket.io');
 const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
 
 const connectDB = require('./config/db');
 
@@ -116,9 +115,6 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later.',
 });
 app.use('/api', limiter);
-
-// Prevent HTTP param pollution
-app.use(hpp());
 
 const ChatMessage = require('./models/ChatMessage');
 
