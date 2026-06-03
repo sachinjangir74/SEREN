@@ -149,22 +149,27 @@ const programs = [
 
 const seedData = async () => {
   try {
-    // Determine Mongo URI
     const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/seren_db';
     console.log('Connecting to:', mongoUri);
     await mongoose.connect(mongoUri);
 
-    console.log('Clearing existing Services and Programs...');
-    await Service.deleteMany();
-    await Program.deleteMany();
+    const serviceCount = await Service.countDocuments();
+    if (serviceCount > 0) {
+      console.log('Services already exist in database, skipping seed to prevent data overwrite.');
+    } else {
+      console.log('Seeding Services...');
+      await Service.insertMany(services);
+    }
 
-    console.log('Seeding Services...');
-    await Service.insertMany(services);
-    
-    console.log('Seeding Programs...');
-    await Program.insertMany(programs);
+    const programCount = await Program.countDocuments();
+    if (programCount > 0) {
+      console.log('Programs already exist in database, skipping seed.');
+    } else {
+      console.log('Seeding Programs...');
+      await Program.insertMany(programs);
+    }
 
-    console.log('Data successfully seeded!');
+    console.log('Data successfully verified/seeded!');
     process.exit();
   } catch (error) {
     console.error('Error seeding data:', error);
