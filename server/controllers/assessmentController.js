@@ -6,7 +6,7 @@ const Assessment = require('../models/Assessment');
 exports.getAssessmentBySlug = async (req, res) => {
   try {
     const assessment = await Assessment.findOne({ slug: req.params.slug });
-    
+
     if (!assessment) {
       return res.status(404).json({ success: false, message: 'Assessment not found.' });
     }
@@ -26,7 +26,7 @@ exports.getAssessmentBySlug = async (req, res) => {
 exports.submitAssessment = async (req, res) => {
   try {
     const { slug } = req.params;
-    const { answers } = req.body; 
+    const { answers } = req.body;
     // Expecting answers to be an array of numbers (scores for each question)
     // Example: { "answers": [2, 3, 1, 0, 2] }
 
