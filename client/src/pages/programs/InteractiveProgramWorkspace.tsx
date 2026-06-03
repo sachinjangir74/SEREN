@@ -14,8 +14,8 @@ const InteractiveProgramWorkspace = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
-  const [program, setProgram] = useState(null);
-  const [progress, setProgress] = useState(null);
+  const [program, setProgram] = useState<any>(null);
+  const [progress, setProgress] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeModuleIndex, setActiveModuleIndex] = useState(0);
   const [marking, setMarking] = useState(false);
@@ -52,7 +52,7 @@ const InteractiveProgramWorkspace = () => {
     fetchProgramAndProgress();
   }, [slug, user, navigate]);
 
-  const handleMarkComplete = async (moduleId) => {
+  const handleMarkComplete = async (moduleId: string) => {
     if (marking) return;
     try {
       setMarking(true);
@@ -206,8 +206,8 @@ const InteractiveProgramWorkspace = () => {
                     <h4 className="font-semibold text-slate-900 dark:text-white mb-2">Self-Reflection Exercise</h4>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Take a moment to write down 3 things you observed about this topic in your own life.</p>
                     <textarea 
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-teal-500 outline-none transition-all resize-none" 
-                      rows="3" 
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-teal-500 outline-none transition-all resize-none"
+                      rows={3}
                       placeholder="Your reflections..."
                     ></textarea>
                   </div>

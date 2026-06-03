@@ -12,7 +12,7 @@ import EmojiPicker from 'emoji-picker-react';
 import toast from 'react-hot-toast';
 import { Image } from '../components/ui/Image';
 
-const fetchAppointments = async (token) => {
+const fetchAppointments = async (token: string) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5005'}/api/appointments`, {
     headers: { Authorization: `Bearer ${token}` }
   });
@@ -21,17 +21,17 @@ const fetchAppointments = async (token) => {
 
 const Chat = () => {
   const { user } = useContext(AuthContext);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [currentMessage, setCurrentMessage] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   
-  const [activeChat, setActiveChat] = useState(null);
-  const [contacts, setContacts] = useState([]);
+  const [activeChat, setActiveChat] = useState<any>(null);
+  const [contacts, setContacts] = useState<any[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Summarize state
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [summary, setSummary] = useState(null);
+  const [summary, setSummary] = useState<any>(null);
   const [summaryModalOpen, setSummaryModalOpen] = useState(false);
 
   const [isTyping, setIsTyping] = useState(false);
@@ -40,9 +40,9 @@ const Chat = () => {
 
   const setSocketConnected = useAppStore((state) => state.setSocketConnected);
 
-  const socketRef = useRef(null);
-  const messagesEndRef = useRef(null);
-  const typingTimeoutRef = useRef(null);
+  const socketRef = useRef<any>(null);
+  const messagesEndRef = useRef<any>(null);
+  const typingTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -232,7 +232,7 @@ const Chat = () => {
   };
 
   // Helper to format time like 10:30
-  const formatTime = (isoString) => {
+  const formatTime = (isoString: string) => {
     return new Date(isoString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(' AM', '').replace(' PM', '').toLowerCase();
   };
 

@@ -31,9 +31,9 @@ const ProgramDetail = () => {
     }
   };
 
-  const [program, setProgram] = useState(null);
+  const [program, setProgram] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
     const fetchProgram = async () => {

@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import toast from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 import AuthContext from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
 import { Activity, Heart, Calendar as CalendarIcon, MessageSquare, TrendingUp, Clock, Plus, Video, ArrowRight, Star, Headphones, Wind, Sparkles, Download, Flame, Target, TrendingDown } from "lucide-react";
 import axios from "axios";
@@ -27,7 +27,7 @@ const containerVariants = {
   show: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
 
-const itemVariants = {
+const itemVariants: any = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
 };
@@ -351,6 +351,7 @@ const MoodAnalyticsDashboard = ({ moodHistory, onReset }: { moodHistory: any[], 
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   
   const [showMoodModal, setShowMoodModal] = useState(false);
   const [mood, setMood] = useState('Happy');
@@ -611,7 +612,7 @@ const Profile = () => {
                         </p>
                       </div>
                     </div>
-                    <Button size="sm" variant={apt.type === "video" ? "primary" : "secondary"} className="w-full mt-2" onClick={() => navigate("/video", { state: { roomId: apt._id } })}>
+                    <Button size="sm" variant={apt.type === "video" ? "default" : "secondary"} className="w-full mt-2" onClick={() => navigate("/video", { state: { roomId: apt._id } })}>
                         <Video className="w-4 h-4 mr-2" />
                         Join Session
                     </Button>

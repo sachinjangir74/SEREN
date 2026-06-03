@@ -12,15 +12,15 @@ const AssessmentFlow = () => {
   const authContext = useContext(AuthContext);
   const refreshUser = authContext ? authContext.refreshUser : null;
 
-  const [assessment, setAssessment] = useState(null);
+  const [assessment, setAssessment] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
   
   // Test State
   const [currentIndex, setCurrentIndex] = useState(-1); // -1 is the intro screen
-  const [answers, setAnswers] = useState([]); // Will store numeric scores
+  const [answers, setAnswers] = useState<any[]>([]); // Will store numeric scores
   const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<any>(null);
 
   // Fetch Assessment details
   useEffect(() => {

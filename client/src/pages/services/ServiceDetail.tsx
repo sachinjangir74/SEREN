@@ -13,7 +13,7 @@ export default function ServiceDetail() {
   const navigate = useNavigate();
   const [data, setData] = useState({ service: null, therapists: [] });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
 
   // We are currently running from local dev API which is on 5005 per our manual testing
   useEffect(() => {
