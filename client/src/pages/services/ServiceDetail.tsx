@@ -7,34 +7,50 @@ import { motion } from 'framer-motion';
 import { Star, CheckCircle, Video, MessageCircle, Calendar } from 'lucide-react';
 import { TherapistCard } from '../../components/ui/TherapistCard';
 import { Image } from '../../components/ui/Image';
+import { staticServices } from '../../data/staticServices';
 
 export default function ServiceDetail() {
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const [data, setData] = useState({ service: null, therapists: [] });
+  const [data, setData] = useState<{ service: any; therapists: any[] }>({ service: null, therapists: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
 
-  // We are currently running from local dev API which is on 5005 per our manual testing
   useEffect(() => {
     const fetchService = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5005'}/api/services/${slug}`);
-        if (response.data.success) {
-          setData(response.data.data);
-        } else {
-          setError(response.data.message || 'Service not found');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        if (apiUrl) {
+          const response = await axios.get(`${apiUrl}/api/services/${slug}`);
+          if (response.data.success) {
+            setData(response.data.data);
+            setLoading(false);
+            return;
+          }
         }
-        setLoading(false);
+        // Fallback to static data when no API URL or API fails
+        const staticService = staticServices[slug!];
+        if (staticService) {
+          setData({ service: staticService, therapists: [] });
+        } else {
+          setError('Service not found.');
+        }
       } catch (err) {
-        console.error(err);
-        setError('Failed to fetch service data. Please try again later.');
+        // API call failed — try static fallback before showing error
+        const staticService = staticServices[slug!];
+        if (staticService) {
+          setData({ service: staticService, therapists: [] });
+        } else {
+          setError('Failed to fetch service data. Please try again later.');
+        }
+      } finally {
         setLoading(false);
       }
     };
     fetchService();
   }, [slug]);
+
 
   if (loading) {
     const getSectionImage1 = (slug) => {

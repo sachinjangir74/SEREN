@@ -7,9 +7,10 @@ import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import { motion } from 'framer-motion';
 import { Image } from '../../components/ui/Image';
+import { staticPrograms } from '../../data/staticServices';
 
 const ProgramDetail = () => {
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { user, refreshUser } = useContext(AuthContext);
   const isEnrolled = user?.enrolledPrograms?.some(p => p.programSlug === slug); 
@@ -20,13 +21,15 @@ const ProgramDetail = () => {
       return;
     }
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5005'}/api/auth/enroll`, { programSlug: slug }, {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      if (!apiUrl) { alert('Please sign up or log in to enroll in programs.'); return; }
+      await axios.post(`${apiUrl}/api/auth/enroll`, { programSlug: slug }, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       await refreshUser();
       alert("Successfully enrolled! Check your dashboard.");
       navigate('/profile');
-    } catch (err) {
+    } catch (err: any) {
       alert(err.response?.data?.message || "Failed to enroll or already enrolled.");
     }
   };
@@ -39,18 +42,29 @@ const ProgramDetail = () => {
     const fetchProgram = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5005'}/api/programs/${slug}`);
-
-        if (response.data.success) {
-          setProgram(response.data.data);
-        } else {
-          setError(response.data.message || 'Failed to load program.');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        if (apiUrl) {
+          const response = await axios.get(`${apiUrl}/api/programs/${slug}`);
+          if (response.data.success) {
+            setProgram(response.data.data);
+            setLoading(false);
+            return;
+          }
         }
-      } catch (err) {
-        if (err.response?.status === 404) {
-          setError('Program not found.');
+        // Fallback to static data when no API URL configured
+        const staticProgram = staticPrograms[slug!];
+        if (staticProgram) {
+          setProgram(staticProgram);
         } else {
-          setError(err.response?.data?.message || 'An error occurred while connecting to the server.');
+          setError('Program not found.');
+        }
+      } catch (err: any) {
+        // API call failed — try static fallback before showing error
+        const staticProgram = staticPrograms[slug!];
+        if (staticProgram) {
+          setProgram(staticProgram);
+        } else {
+          setError(err.response?.status === 404 ? 'Program not found.' : 'An error occurred while connecting to the server.');
         }
       } finally {
         setLoading(false);
@@ -59,6 +73,7 @@ const ProgramDetail = () => {
 
     fetchProgram();
   }, [slug]);
+
 
   if (loading) {
     return (
