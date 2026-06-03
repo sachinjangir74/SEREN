@@ -11,6 +11,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Button } from "../components/ui/button";
 import { motion } from "framer-motion";
 import { Image } from '../components/ui/Image';
+import { Skeleton, SkeletonCard } from '../components/ui/skeleton';
+import { ErrorBoundary } from '../ErrorBoundary';
 
 const moodData = [
   { name: "Mon", mood: 6, stress: 4 },
@@ -493,7 +495,13 @@ const Profile = () => {
         </motion.div>
 
         {/* Phase 2 & 8: Smart AI Dashboard & Journey Plan */}
-        {aiInsights && (
+        {isLoadingInsights ? (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <SkeletonCard className="col-span-1 h-[340px]" />
+            <SkeletonCard className="col-span-1 lg:col-span-2 h-[340px]" />
+          </div>
+        ) : aiInsights && (
+          <ErrorBoundary>
           <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             
             {/* Gamification & Prediction */}
@@ -577,12 +585,15 @@ const Profile = () => {
               </CardContent>
             </Card>
           </motion.div>
+          </ErrorBoundary>
         )}
 
         <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
           {/* Overview Bento */}
           <motion.div variants={itemVariants} className="col-span-1 md:col-span-2">
-             <MoodAnalyticsDashboard moodHistory={latestMoods} onReset={handleResetWeek} />
+             <ErrorBoundary>
+               <MoodAnalyticsDashboard moodHistory={latestMoods} onReset={handleResetWeek} />
+             </ErrorBoundary>
           </motion.div>
 
           {/* Upcoming Sessions */}
@@ -596,9 +607,9 @@ const Profile = () => {
             </CardHeader>
             <CardContent className="flex-1 flex flex-col gap-4">
               {isLoading ? (
-                <div className="animate-pulse space-y-4">
-                  <div className="h-16 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
-                  <div className="h-16 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+                <div className="space-y-4">
+                  <Skeleton className="h-16 w-full rounded-xl" />
+                  <Skeleton className="h-16 w-full rounded-xl" />
                 </div>
               ) : upcomming.length > 0 ? (
                 upcomming.slice(0, 3).map((apt: any) => (

@@ -3,6 +3,7 @@ import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
 import { useAppStore } from '../store/useAppStore';
 import { FloatingChat } from './ai/FloatingChat';
+import { ErrorBoundary } from '../ErrorBoundary';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { theme } = useAppStore();    
@@ -25,7 +26,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         {children}
       </main>
       <Footer />
-      <FloatingChat />
+      <ErrorBoundary>
+        <FloatingChat />
+      </ErrorBoundary>
     </div>
   );
 };
