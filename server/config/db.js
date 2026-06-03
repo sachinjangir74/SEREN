@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const autoSeed = require('../seeds/autoSeed');
 
 let lastError = null;
 
@@ -9,6 +10,8 @@ const connectDB = async () => {
     });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     lastError = null;
+    // Auto-seed essential data if collections are empty (safe on every boot)
+    autoSeed();
   } catch (error) {
     lastError = error.message;
     console.error(`MongoDB Connection Error: ${error.message}`);
