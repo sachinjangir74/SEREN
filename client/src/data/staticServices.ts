@@ -1,5 +1,80 @@
-// Static fallback data — used when the backend API is unreachable (e.g. Vercel without VITE_API_URL)
+// Static fallback data — used when the backend API is unreachable (e.g. Vercel without VITE_API_URL set)
+// Keys MUST match the slugs used in Navbar.tsx, Footer.tsx, and Services.tsx links
 export const staticServices: Record<string, any> = {
+  // Navbar/Footer slugs
+  'one-to-one-therapy': {
+    title: 'Individual Therapy',
+    slug: 'one-to-one-therapy',
+    category: 'therapy',
+    shortDescription: 'One-on-one sessions tailored to your unique mental health needs.',
+    fullDescription: 'Individual therapy provides a safe, confidential environment where you can work one-on-one with a licensed professional. Together, we explore your thoughts, feelings, and behaviors, and develop strategies tailored specifically to your goals and challenges.',
+    benefits: [
+      'Personalized treatment plans tailored to your specific needs',
+      'A safe, non-judgmental space to explore complex emotions',
+      'Develop effective coping strategies for daily life',
+      'Gain deeper self-awareness and understanding',
+    ],
+    howItWorks: [
+      { step: 1, title: 'Initial Assessment', description: 'We start by understanding your history, current challenges, and goals.' },
+      { step: 2, title: 'Collaborative Planning', description: 'Together, we develop a customized treatment plan.' },
+      { step: 3, title: 'Ongoing Sessions', description: 'Regular meetings to work through challenges and track progress.' },
+    ],
+  },
+  'couples-therapy': {
+    title: 'Couples Therapy',
+    slug: 'couples-therapy',
+    category: 'couples',
+    shortDescription: 'Improve communication, resolve conflicts, and strengthen your relationship with guided sessions.',
+    fullDescription: 'Couples therapy helps partners at any stage of their relationship improve communication, resolve conflicts, and strengthen their emotional bond. Our experienced therapists provide a neutral, supportive environment for both individuals to be heard and understood.',
+    benefits: [
+      'Improve communication skills and intimacy',
+      'Learn effective conflict resolution techniques',
+      'Rebuild trust and emotional connection',
+      'Navigate major life transitions together',
+    ],
+    howItWorks: [
+      { step: 1, title: 'Joint Assessment', description: 'Understanding the relationship dynamics from both perspectives.' },
+      { step: 2, title: 'Skill Building', description: 'Learning and practicing new communication and problem-solving tools.' },
+      { step: 3, title: 'Relational Growth', description: 'Applying skills to deepen intimacy and overcome standing issues.' },
+    ],
+  },
+  'psychiatric-sessions': {
+    title: 'Psychiatric Sessions',
+    slug: 'psychiatric-sessions',
+    category: 'psychiatry',
+    shortDescription: 'Comprehensive assessments to diagnose mental health conditions and formulate effective treatment plans.',
+    fullDescription: 'Our psychiatric evaluations involve a thorough medical and psychological assessment conducted by licensed psychiatrists. This service is crucial for accurately diagnosing mental health conditions and determining if medication or specialized treatments are necessary.',
+    benefits: [
+      'Accurate diagnosis by medical professionals',
+      'Exploration of medication management options',
+      'Comprehensive understanding of biological and psychological factors',
+      'Integrated care approach coordinating with your therapist',
+    ],
+    howItWorks: [
+      { step: 1, title: 'Medical History', description: 'A detailed review of your medical and psychological background.' },
+      { step: 2, title: 'Clinical Interview', description: 'An in-depth discussion about your current symptoms and experiences.' },
+      { step: 3, title: 'Treatment Recommendation', description: 'A personalized plan which may include medication, therapy, or both.' },
+    ],
+  },
+  'teen-counseling': {
+    title: 'Teen Counseling',
+    slug: 'teen-counseling',
+    category: 'teen',
+    shortDescription: 'Specialized support for teenagers navigating the challenges of adolescence.',
+    fullDescription: 'Teen counseling provides a safe, non-judgmental space where adolescents can freely explore their thoughts and feelings. Our therapists specialize in the unique pressures faced by teens — including academic stress, social challenges, identity exploration, and family dynamics.',
+    benefits: [
+      'Develop healthy coping strategies for stress and anxiety',
+      'Improve communication with family and peers',
+      'Build confidence and self-esteem during formative years',
+      'Navigate academic, social, and identity challenges effectively',
+    ],
+    howItWorks: [
+      { step: 1, title: 'Safe Introduction', description: 'A relaxed first session focused on building trust with a teen-specialized therapist.' },
+      { step: 2, title: 'Goal Setting', description: 'Together we identify specific challenges and set realistic, achievable goals.' },
+      { step: 3, title: 'Ongoing Support', description: 'Regular sessions with flexible scheduling to fit school and activities.' },
+    ],
+  },
+  // Alternative slugs from Services.tsx page cards
   'individual-therapy': {
     title: 'Individual Therapy',
     slug: 'individual-therapy',
@@ -16,42 +91,6 @@ export const staticServices: Record<string, any> = {
       { step: 1, title: 'Initial Assessment', description: 'We start by understanding your history, current challenges, and goals.' },
       { step: 2, title: 'Collaborative Planning', description: 'Together, we develop a customized treatment plan.' },
       { step: 3, title: 'Ongoing Sessions', description: 'Regular meetings to work through challenges and track progress.' },
-    ],
-  },
-  'cognitive-behavioral-therapy': {
-    title: 'Cognitive Behavioral Therapy (CBT)',
-    slug: 'cognitive-behavioral-therapy',
-    category: 'therapy',
-    shortDescription: 'A structured, goal-oriented therapy to help manage problems by changing how you think and behave.',
-    fullDescription: 'CBT is a highly effective, evidence-based approach that helps you identify and challenge negative thought patterns and behaviors. By understanding the connection between your thoughts, feelings, and actions, you can develop practical skills to overcome anxiety and depression.',
-    benefits: [
-      'Learn practical skills to manage negative thoughts',
-      'Identify and change harmful behavioral patterns',
-      'Short-term, goal-oriented approach with measurable results',
-      'Effective for anxiety, depression, and stress management',
-    ],
-    howItWorks: [
-      { step: 1, title: 'Identify Patterns', description: 'Recognize negative thought patterns affecting your mood.' },
-      { step: 2, title: 'Challenge Thoughts', description: 'Learn to question and reframe unhelpful beliefs.' },
-      { step: 3, title: 'Behavioral Changes', description: 'Implement new, positive behaviors and coping strategies.' },
-    ],
-  },
-  'psychiatric-evaluations': {
-    title: 'Psychiatric Evaluations',
-    slug: 'psychiatric-evaluations',
-    category: 'psychiatry',
-    shortDescription: 'Comprehensive assessments to diagnose mental health conditions and formulate effective treatment plans.',
-    fullDescription: 'Our psychiatric evaluations involve a thorough medical and psychological assessment conducted by licensed psychiatrists. This service is crucial for accurately diagnosing mental health conditions and determining if medication or specialized treatments are necessary.',
-    benefits: [
-      'Accurate diagnosis by medical professionals',
-      'Exploration of medication management options',
-      'Comprehensive understanding of biological and psychological factors',
-      'Integrated care approach coordinating with your therapist',
-    ],
-    howItWorks: [
-      { step: 1, title: 'Medical History', description: 'A detailed review of your medical and psychological background.' },
-      { step: 2, title: 'Clinical Interview', description: 'An in-depth discussion about your current symptoms and experiences.' },
-      { step: 3, title: 'Treatment Recommendation', description: 'A personalized plan which may include medication, therapy, or both.' },
     ],
   },
   'couples-counseling': {
@@ -72,6 +111,24 @@ export const staticServices: Record<string, any> = {
       { step: 3, title: 'Relational Growth', description: 'Applying skills to deepen intimacy and overcome standing issues.' },
     ],
   },
+  'cognitive-behavioral-therapy': {
+    title: 'Cognitive Behavioral Therapy (CBT)',
+    slug: 'cognitive-behavioral-therapy',
+    category: 'therapy',
+    shortDescription: 'A structured, goal-oriented therapy to help manage problems by changing how you think and behave.',
+    fullDescription: 'CBT is a highly effective, evidence-based approach that helps you identify and challenge negative thought patterns and behaviors. By understanding the connection between your thoughts, feelings, and actions, you can develop practical skills to overcome anxiety and depression.',
+    benefits: [
+      'Learn practical skills to manage negative thoughts',
+      'Identify and change harmful behavioral patterns',
+      'Short-term, goal-oriented approach with measurable results',
+      'Effective for anxiety, depression, and stress management',
+    ],
+    howItWorks: [
+      { step: 1, title: 'Identify Patterns', description: 'Recognize negative thought patterns affecting your mood.' },
+      { step: 2, title: 'Challenge Thoughts', description: 'Learn to question and reframe unhelpful beliefs.' },
+      { step: 3, title: 'Behavioral Changes', description: 'Implement new, positive behaviors and coping strategies.' },
+    ],
+  },
   'mindfulness-and-meditation': {
     title: 'Mindfulness & Meditation',
     slug: 'mindfulness-and-meditation',
@@ -90,9 +147,110 @@ export const staticServices: Record<string, any> = {
       { step: 3, title: 'Daily Integration', description: 'Strategies for applying mindfulness in your everyday routines.' },
     ],
   },
+  'psychiatric-evaluations': {
+    title: 'Psychiatric Evaluations',
+    slug: 'psychiatric-evaluations',
+    category: 'psychiatry',
+    shortDescription: 'Comprehensive assessments to diagnose mental health conditions and formulate effective treatment plans.',
+    fullDescription: 'Our psychiatric evaluations involve a thorough medical and psychological assessment conducted by licensed psychiatrists.',
+    benefits: [
+      'Accurate diagnosis by medical professionals',
+      'Exploration of medication management options',
+      'Comprehensive understanding of biological and psychological factors',
+      'Integrated care approach coordinating with your therapist',
+    ],
+    howItWorks: [
+      { step: 1, title: 'Medical History', description: 'A detailed review of your medical and psychological background.' },
+      { step: 2, title: 'Clinical Interview', description: 'An in-depth discussion about your current symptoms and experiences.' },
+      { step: 3, title: 'Treatment Recommendation', description: 'A personalized plan which may include medication, therapy, or both.' },
+    ],
+  },
 };
 
 export const staticPrograms: Record<string, any> = {
+  // Navbar/Footer slugs
+  'anxiety-relief': {
+    title: 'Anxiety Relief Program',
+    slug: 'anxiety-relief',
+    description: 'A 6-week structured program using evidence-based techniques to help you understand, manage, and reduce anxiety in everyday life.',
+    duration: '6 Weeks',
+    category: 'Anxiety',
+    benefits: [
+      'Understand the root causes of your anxiety',
+      'Practical tools to interrupt anxiety spirals',
+      'Build a personalized anxiety management toolkit',
+      'Reduce avoidance and improve quality of life',
+    ],
+    recommendedFor: 'Anyone dealing with general anxiety, social anxiety, or panic that interferes with daily functioning.',
+    modules: [
+      { _id: 'm1', title: 'What Is Anxiety?', description: 'Explore the nature of anxiety, its purpose, and why it can spiral out of control.', duration: 'Week 1' },
+      { _id: 'm2', title: 'Identifying Your Triggers', description: 'Learn to recognize specific thoughts and situations that activate your anxiety.', duration: 'Week 2' },
+      { _id: 'm3', title: 'Challenging Anxious Thoughts', description: 'Apply CBT techniques to test and reframe catastrophic thinking.', duration: 'Week 3' },
+      { _id: 'm4', title: 'Exposure & Acceptance', description: 'Gradually face feared situations to reduce avoidance behaviors.', duration: 'Week 4' },
+      { _id: 'm5', title: 'Body-Based Techniques', description: 'Use somatic exercises to calm your nervous system during acute anxiety.', duration: 'Week 5' },
+      { _id: 'm6', title: 'Your Long-Term Anxiety Plan', description: 'Consolidate your skills and build a sustainable anxiety management lifestyle.', duration: 'Week 6' },
+    ],
+  },
+  'self-help': {
+    title: 'Self-Help Foundations',
+    slug: 'self-help',
+    description: 'A 3-week introductory program to build your core mental wellness toolkit. Perfect for anyone starting their mental health journey.',
+    duration: '3 Weeks',
+    category: 'Self Help',
+    benefits: [
+      'Build a strong foundation for mental wellness',
+      'Learn evidence-based self-care techniques',
+      'Develop daily habits that support emotional health',
+      'Gain confidence in managing your own well-being',
+    ],
+    recommendedFor: 'Anyone new to mental wellness, looking for practical tools to improve daily emotional health.',
+    modules: [
+      { _id: 'm1', title: 'Understanding Your Mind', description: 'Learn the basics of how thoughts and emotions interact and influence behavior.', duration: 'Week 1' },
+      { _id: 'm2', title: 'Building Daily Habits', description: 'Establish simple, science-backed daily routines that support mental health.', duration: 'Week 2' },
+      { _id: 'm3', title: 'Your Personal Wellness Plan', description: 'Create a sustainable, personalized plan for ongoing mental wellness.', duration: 'Week 3' },
+    ],
+  },
+  'happiness-program': {
+    title: 'Happiness Program',
+    slug: 'happiness-program',
+    description: 'A 5-week science-based program drawing from positive psychology to help you build lasting happiness and life satisfaction.',
+    duration: '5 Weeks',
+    category: 'Positive Psychology',
+    benefits: [
+      'Discover what genuinely brings you joy and meaning',
+      'Build stronger, more fulfilling relationships',
+      'Cultivate gratitude and optimism as daily practices',
+      'Increase life satisfaction and overall well-being',
+    ],
+    recommendedFor: 'Anyone who wants to move beyond surviving and start genuinely thriving in their life.',
+    modules: [
+      { _id: 'm1', title: 'The Science of Happiness', description: 'Explore what research tells us about what actually makes people happy.', duration: 'Week 1' },
+      { _id: 'm2', title: 'Gratitude & Savoring', description: 'Practice the art of noticing, appreciating, and savoring positive experiences.', duration: 'Week 2' },
+      { _id: 'm3', title: 'Meaning & Purpose', description: 'Identify your values and connect with what gives your life deep meaning.', duration: 'Week 3' },
+      { _id: 'm4', title: 'Relationships & Connection', description: 'Strengthen social bonds and nurture the relationships that matter most.', duration: 'Week 4' },
+      { _id: 'm5', title: 'Sustaining Your Happiness', description: 'Create a personalized happiness maintenance plan for the long term.', duration: 'Week 5' },
+    ],
+  },
+  'free-assessments': {
+    title: 'Free Mental Health Assessments',
+    slug: 'free-assessments',
+    description: 'A self-guided series of evidence-based assessments to help you understand your current mental health and identify areas for growth.',
+    duration: '1 Week',
+    category: 'Assessment',
+    benefits: [
+      'Gain clarity on your current mental health status',
+      'Identify specific areas that need attention',
+      'Get personalized program recommendations',
+      'Completely free and confidential',
+    ],
+    recommendedFor: 'Anyone unsure where to start or wanting an objective snapshot of their mental well-being.',
+    modules: [
+      { _id: 'm1', title: 'Anxiety & Stress Assessment', description: 'Using the GAD-7 scale to measure your current anxiety levels.', duration: 'Day 1' },
+      { _id: 'm2', title: 'Mood & Depression Check', description: 'Using the PHQ-9 scale to assess your current mood and energy.', duration: 'Day 2' },
+      { _id: 'm3', title: 'Your Results & Next Steps', description: 'Review your results and receive personalized program recommendations.', duration: 'Day 3' },
+    ],
+  },
+  // Profile.tsx slugs
   'managing-stress': {
     title: 'Managing Daily Stress',
     slug: 'managing-stress',
@@ -116,7 +274,7 @@ export const staticPrograms: Record<string, any> = {
   'mindful-breathing': {
     title: 'Mindful Breathing 101',
     slug: 'mindful-breathing',
-    description: 'An introductory 2-week course focused on the power of breath. Learn fundamental breathing exercises that provide immediate relief from anxiety and help center your mind.',
+    description: 'An introductory 2-week course focused on the power of breath. Learn fundamental breathing exercises that provide immediate relief from anxiety.',
     duration: '2 Weeks',
     category: 'Mindfulness',
     benefits: [
@@ -129,28 +287,6 @@ export const staticPrograms: Record<string, any> = {
     modules: [
       { _id: 'm1', title: 'The Physiology of Breath', description: 'Understand how breathing directly impacts your nervous system and emotions.', duration: 'Week 1' },
       { _id: 'm2', title: 'Advanced Breathing Techniques', description: 'Learn practical methods like 4-7-8 breathing and box breathing for specific situations.', duration: 'Week 2' },
-    ],
-  },
-  'anxiety-relief': {
-    title: 'Anxiety Relief Program',
-    slug: 'anxiety-relief',
-    description: 'A 6-week structured program using evidence-based techniques to help you understand, manage, and reduce anxiety in everyday life.',
-    duration: '6 Weeks',
-    category: 'Anxiety',
-    benefits: [
-      'Understand the root causes of your anxiety',
-      'Practical tools to interrupt anxiety spirals',
-      'Build a personalized anxiety management toolkit',
-      'Reduce avoidance and improve quality of life',
-    ],
-    recommendedFor: 'Anyone dealing with general anxiety, social anxiety, or panic that interferes with daily functioning.',
-    modules: [
-      { _id: 'm1', title: 'What Is Anxiety?', description: 'Explore the nature of anxiety, its purpose, and why it can spiral out of control.', duration: 'Week 1' },
-      { _id: 'm2', title: 'Identifying Your Triggers', description: 'Learn to recognize specific thoughts and situations that activate your anxiety.', duration: 'Week 2' },
-      { _id: 'm3', title: 'Challenging Anxious Thoughts', description: 'Apply CBT techniques to test and reframe catastrophic thinking.', duration: 'Week 3' },
-      { _id: 'm4', title: 'Exposure & Acceptance', description: 'Gradually face feared situations to reduce avoidance behaviors.', duration: 'Week 4' },
-      { _id: 'm5', title: 'Body-Based Techniques', description: 'Use somatic exercises to calm your nervous system during acute anxiety.', duration: 'Week 5' },
-      { _id: 'm6', title: 'Your Long-Term Anxiety Plan', description: 'Consolidate your skills and build a sustainable anxiety management lifestyle.', duration: 'Week 6' },
     ],
   },
 };
